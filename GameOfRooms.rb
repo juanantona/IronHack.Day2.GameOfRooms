@@ -55,7 +55,7 @@ class Game
             return #Meto un return para salir del bucle options.each
           end # if
           if rooms.options.length == options_number
-            puts "Wrong command.Please, try again."
+            puts "Wrong command.Please, try again." #Sólo entro aquí si llego al final del bucle de opciones
           end
           options_number = options_number + 1
         end #each options	
@@ -79,6 +79,10 @@ class Game
     puts "You are the best!"
     puts @player_positions
   end 
+
+  def pickup_object
+
+  end  
 
 end	
 
