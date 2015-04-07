@@ -41,20 +41,21 @@ class Game
   def initialize
   	@current_stage = "stage0"
   	@current_position = 0
-  	@player_positions = []
+  	@player_positions = [@current_position]
   end
 
   def execute_command(command)
   	@current_stage.rooms.each do |rooms|
-  		
-  		if @current_position == rooms.id
-
-  		end	
-
-  	
-
-  	@player_positions.push(command)
-  end 
+  	  if rooms.id == @current_position
+  	    rooms.options.each do |options| 
+          if rooms.options[0] == command #Si el comando ejecutado corresponde con una de las opciones
+            @current_position = rooms.options[1]
+            @player_positions.push(rooms.options[1])
+          end # if
+        end #each options	
+  	  end #if	
+    end #each rooms
+end 
 
 end	
 
@@ -62,7 +63,7 @@ end
 #INSTANCE STAGE 1
 #########################
 
-room0 = Room.new 0, "text_room0"
+room0 = Room.new 0, "Puedes ir al sur"
 room0.add_options ["S", 1]
 room1 = Room.new 1, "text_room1"
 room1.add_options ["S", 2]
@@ -91,7 +92,9 @@ sateg0.add_room(room5)
 
 juan = Game.new 
 
+puts "You are in the room 0"
 puts "Where do you go?"
 command = gets.chomp
 
 juan.execute_command(command)
+puts juan.current_position
