@@ -29,7 +29,7 @@ class Map
   end
 
   def add_room(room)
-    @rooms = room
+    @rooms.push(room)
   end	
 
 end
@@ -38,8 +38,8 @@ class Game
   
   attr_accessor :current_position, :player_positions
 
-  def initialize
-  	@current_stage = "stage0"
+  def initialize(stage)
+  	@current_stage = stage
   	@current_position = 0
   	@player_positions = [@current_position]
   end
@@ -55,42 +55,42 @@ class Game
         end #each options	
   	  end #if	
     end #each rooms
-end 
+  end #end execute_command
 
 end	
 
 #########################
-#INSTANCE STAGE 1
+#INSTANCE STAGE 0
 #########################
 
-room0 = Room.new 0, "Puedes ir al sur"
-room0.add_options ["S", 1]
+room0 = Room.new 0, "You can go to south"
+room0.add_option "S", 1
 room1 = Room.new 1, "text_room1"
-room1.add_options ["S", 2]
-room1.add_options ["W", 4]
+room1.add_option "S", 2 #room1
+room1.add_option "W", 4
 room2 = Room.new 2, "text_room2"
-room2.add_options ["W", 3]
+room2.add_option "W", 3
 room3 = Room.new 3, "text_room3"
-room3.add_options ["N", 4]
-room3.add_options ["S", 5]
+room3.add_option "N", 4
+room3.add_option "S", 5
 room4 = Room.new 4, "text_room4"
-room4.add_options ["E", 1]
-room4.add_options ["S", 3]
+room4.add_option "E", 1
+room4.add_option "S", 3
 room5 = Room.new 5, "text_room5"
 
 stage0 = Map.new
-sateg0.add_room(room0)
-sateg0.add_room(room1)
-sateg0.add_room(room2)
-sateg0.add_room(room3)
-sateg0.add_room(room4)
-sateg0.add_room(room5)
+stage0.add_room(room0)
+stage0.add_room(room1)
+stage0.add_room(room2)
+stage0.add_room(room3)
+stage0.add_room(room4)
+stage0.add_room(room5)
 
 #########################
 #MAIN
 #########################
 
-juan = Game.new 
+juan = Game.new(stage0)#pasarle stage0 por parámetros
 
 puts "You are in the room 0"
 puts "Where do you go?"
