@@ -11,7 +11,7 @@ class Room
   def initialize(id, description)
     @id = id
     @description = description
-	@options = []
+	  @options = []
   end
 
   def add_option(direction, next_id)
@@ -45,17 +45,31 @@ class Game
   end
 
   def execute_command(command)
-  	@current_stage.rooms.each do |rooms|
-  	  if rooms.id == @current_position
-  	    rooms.options.each do |options| 
-          if rooms.options[0] == command #Si el comando ejecutado corresponde con una de las opciones
-            @current_position = rooms.options[1]
-            @player_positions.push(rooms.options[1])
+  	@current_stage.rooms.each do |rooms| #Recorro todas las habitaciones del mapa
+      if rooms.id == @current_position
+  	    rooms.options.each do |options|
+          if options[0] == command #Si el comando ejecutado corresponde con una de las opciones
+            @current_position = options[1]
+            @player_positions.push(options[1])
+            return #Meto un return para salir del bucle options.each
           end # if
         end #each options	
   	  end #if	
     end #each rooms
   end #end execute_command
+
+  def play_game
+    puts "You are in the first room #{@current_position}"
+    puts "Where do you want to go?"
+    while @current_position != 5
+      command = gets.chomp
+      execute_command(command)
+      puts "You are in the room #{@current_position}"
+      puts "Where do you want to go?"
+    end
+    puts "You are the best!"
+    puts @player_positions
+  end 
 
 end	
 
@@ -63,20 +77,20 @@ end
 #INSTANCE STAGE 0
 #########################
 
-room0 = Room.new 0, "You can go to south"
+room0 = Room.new 0, "You can go south"
 room0.add_option "S", 1
-room1 = Room.new 1, "text_room1"
-room1.add_option "S", 2 #room1
+room1 = Room.new 1, "You can go south or west"
+room1.add_option "S", 2 #room1 --> en lugar de pasar un id podría pasar el objeto entero
 room1.add_option "W", 4
-room2 = Room.new 2, "text_room2"
+room2 = Room.new 2, "You can go west"
 room2.add_option "W", 3
-room3 = Room.new 3, "text_room3"
+room3 = Room.new 3, "You can go north or south"
 room3.add_option "N", 4
 room3.add_option "S", 5
-room4 = Room.new 4, "text_room4"
+room4 = Room.new 4, "You can go east or south"
 room4.add_option "E", 1
 room4.add_option "S", 3
-room5 = Room.new 5, "text_room5"
+room5 = Room.new 5, "Finish!"
 
 stage0 = Map.new
 stage0.add_room(room0)
@@ -90,11 +104,5 @@ stage0.add_room(room5)
 #MAIN
 #########################
 
-juan = Game.new(stage0)#pasarle stage0 por parámetros
-
-puts "You are in the room 0"
-puts "Where do you go?"
-command = gets.chomp
-
-juan.execute_command(command)
-puts juan.current_position
+juan = Game.new(stage0)
+juan.play_game
