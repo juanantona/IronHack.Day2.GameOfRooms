@@ -47,12 +47,17 @@ class Game
   def execute_command(command)
   	@current_stage.rooms.each do |rooms| #Recorro todas las habitaciones del mapa
       if rooms.id == @current_position
-  	    rooms.options.each do |options|
+  	    options_number = 1
+        rooms.options.each do |options|
           if options[0] == command #Si el comando ejecutado corresponde con una de las opciones
             @current_position = options[1]
             @player_positions.push(options[1])
             return #Meto un return para salir del bucle options.each
           end # if
+          if rooms.options.length == options_number
+            puts "Wrong command.Please, try again."
+          end
+          options_number = options_number + 1
         end #each options	
   	  end #if	
     end #each rooms
@@ -60,12 +65,16 @@ class Game
 
   def play_game
     puts "You are in the first room #{@current_position}"
+    puts @current_stage.rooms[@current_position].description
     puts "Where do you want to go?"
+    puts ">"
     while @current_position != 5
       command = gets.chomp
       execute_command(command)
       puts "You are in the room #{@current_position}"
+      puts @current_stage.rooms[@current_position].description
       puts "Where do you want to go?"
+      puts ">"
     end
     puts "You are the best!"
     puts @player_positions
